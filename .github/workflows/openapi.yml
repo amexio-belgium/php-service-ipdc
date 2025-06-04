@@ -1,0 +1,34 @@
+name: Generate PHP client
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'openapi.json'
+
+jobs:
+  generate-php-client:
+    runs-on: ubuntu-latest
+    name: Generate PHP client
+    steps:
+
+      # Checkout your code
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Generate your OpenAPI document (if you don't write it manually)
+
+      # Use the action to generate a client package
+      # This uses the default path for the openapi document and thus assumes there is an openapi.json in the current workspace.
+      - name: Generate PHP Client
+        uses: openapi-generators/openapitools-generator-action@v1
+        with:
+          generator: php
+          openapi-file: openapi.json
+
+      # Do something with the generated client (likely publishing it somewhere)
+      - name: Do something with the client
+        run: |
+          cp -r php-client /
+          ls -la
+          git status
+          git diff
